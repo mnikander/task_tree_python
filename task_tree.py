@@ -27,9 +27,13 @@ def print_children(dictionary, roots, children, level=0):
         if root in children:
             level = print_children(dictionary, children[root], children)
         row = dictionary.get(root, {})
-        indent = '    ' * level
+        indent    = '    ' * level
+        status    = row.get("status", "").strip()
+        important = '*' if row.get("important", "").strip() == 'T' else ' '
+        urgent    = '!' if row.get("urgent", "").strip() == 'T' else ' '
         description = row.get("description", "").strip()
-        print(f"{root} {indent}- {description}")
+        if (status != 'done'):
+            print(f"{root} {important}{urgent} {status.ljust(8)} {indent}- {description}")
     return level+1
 
 def main():
