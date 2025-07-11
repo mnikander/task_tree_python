@@ -17,10 +17,12 @@ def find_roots_and_children(df):
 def build_tree(roots, children):
     tree = []
     for root in roots:
-        tree.append(root)
         if root in children:
+            tree.append(root)
             tree.append(build_tree(children[root], children))
-    return [tree]
+        else:
+            tree.append(root)
+    return tree
 
 def print_tree(tree, level=0):
     for node in tree:
