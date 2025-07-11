@@ -22,8 +22,14 @@ def find_roots_and_children(df):
             roots.append(current)
     return [roots, children];
 
+def make_integer(str):
+    if str.strip() == "":
+        return 0
+    else:
+        return int(str)
+
 def print_children(dictionary, roots, children, level=0):
-    for root in sorted(roots, key=lambda x: int(dictionary.get(x, "").get("estimate", ""))):
+    for root in sorted(roots, key=lambda x: make_integer(dictionary.get(x, "").get("estimate", ""))):
         if root in children:
             level = print_children(dictionary, children[root], children)
         row = dictionary.get(root, {})
