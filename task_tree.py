@@ -4,12 +4,14 @@ import argparse
 def sort_by(node):
     return node.task.get("estimate", "")
 
-def print_id_tree(df, tree, level=0):
-    indent = "  " * level
+def print_id_tree(task_map, tree, level=0):
+    indent = "    " * level
     for node in tree:
         task_id, children = node
-        print(f"{indent}- {task_id}")
-        print_id_tree(df, children, level + 1)
+        row = task_map.get(task_id, {})
+        description = row.get("description", "").strip()
+        print(f"{task_id} {indent}- {description}")
+        print_id_tree(task_map, children, level + 1)
 
 def build_id_tree(df):
     # Build a mapping from ID to list of children
@@ -42,7 +44,8 @@ def main():
 
     df = pd.read_csv(args.csv_file, dtype=str).fillna("")
     roots = build_id_tree(df)
-    print_id_tree(df, roots, 0)
+    task_map = {row["id"]: row for _, row in df.iterrows()}
+    print_id_tree(task_map, roots, 0)
 
 if __name__ == "__main__":
     main()
