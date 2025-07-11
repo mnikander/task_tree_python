@@ -29,9 +29,7 @@ def print_children(roots, children, level=0):
     for root in roots:
         if root in children:
             level = print_children(children[root], children)
-            print(indent(level) + root)
-        else:
-            print(indent(level) + root)
+        print(indent(level) + root)
     return level+1
 
 def main():
