@@ -1,6 +1,14 @@
 import pandas as pd
 import argparse
 
+#
+#     4      1
+#    / \     |
+#   6   5    2
+#            |
+#            3
+#
+
 def find_roots_and_children(df):
     children = {}
     roots = []
