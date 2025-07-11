@@ -14,18 +14,18 @@ def find_roots_and_children(df):
             roots.append(current)
     return [roots, children];
 
-def build_tree(roots, children):
-    tree = []
+def build_trees(roots, children):
+    trees = []
     for root in roots:
         if root in children:
-            tree.append(root)
-            tree.append(build_tree(children[root], children))
+            trees.append(root)
+            trees.append(build_trees(children[root], children))
         else:
-            tree.append(root)
-    return tree
+            trees.append(root)
+    return trees
 
-def print_tree(tree, level=0):
-    for node in tree:
+def print_tree(trees, level=0):
+    for node in trees:
         if isinstance(node, list):
             print_tree(node, level + 1)
         else:
@@ -37,8 +37,8 @@ def main():
     args = parser.parse_args()
     df = pd.read_csv(args.csv_file, dtype=str).fillna("")
     [roots, children] = find_roots_and_children(df)
-    tree = build_tree(roots, children)
-    print_tree(tree)
+    trees = build_trees(roots, children)
+    print_tree(trees)
 
 if __name__ == "__main__":
     main()
