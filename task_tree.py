@@ -20,7 +20,7 @@ def make_integer(str):
     else:
         return int(str)
 
-def print_children(dictionary, roots, children, level=0):
+def print_children(dictionary, roots, children, level=0, newline=False):
     for root in sorted(roots, key=lambda x: make_integer(dictionary.get(x, "").get("estimate", ""))):
         if root in children:
             level = print_children(dictionary, children[root], children)
@@ -32,6 +32,8 @@ def print_children(dictionary, roots, children, level=0):
         description = row.get("description", "").strip()
         if (status != 'done'):
             print(f"{root} {important}{urgent} {status.ljust(8)} {indent}- {description}")
+            if (newline):
+                print("")
     return level+1
 
 def main():
@@ -41,7 +43,7 @@ def main():
     df = pd.read_csv(args.csv_file, dtype=str).fillna("")
     [roots, children] = find_roots_and_children(df)
     dictionary = {row["id"]: row for _, row in df.iterrows()}
-    print_children(dictionary, roots, children, 0)
+    print_children(dictionary, roots, children, 0, True)
 
 if __name__ == "__main__":
     main()
