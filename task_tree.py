@@ -1,9 +1,6 @@
 import pandas as pd
 import argparse
 
-def sort_by(node):
-    return node.task.get("estimate", "")
-
 def find_roots_and_children(df):
     children = {}
     roots = []
