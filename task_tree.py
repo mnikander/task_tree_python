@@ -14,22 +14,22 @@ def find_roots_and_children(df):
             roots.append(current)
     return [roots, children];
 
-def build_trees(roots, children):
-    trees = []
+def build_forest(roots, children):
+    forest = []
     for root in roots:
         if root in children:
-            trees.append(root)
-            trees.append(build_trees(children[root], children))
+            forest.append(root)
+            forest.append(build_forest(children[root], children))
         else:
-            trees.append(root)
-    return trees
+            forest.append(root)
+    return forest
 
-def print_tree(trees, level=0):
-    for node in trees:
-        if isinstance(node, list):
-            print_tree(node, level + 1)
+def print_forest(forest, level=0):
+    for tree in forest:
+        if isinstance(tree, list):
+            print_forest(tree, level + 1)
         else:
-            print("  " * level + str(node))
+            print("  " * level + str(tree))
 
 def main():
     parser = argparse.ArgumentParser(description="Print task tree from CSV.")
@@ -37,8 +37,8 @@ def main():
     args = parser.parse_args()
     df = pd.read_csv(args.csv_file, dtype=str).fillna("")
     [roots, children] = find_roots_and_children(df)
-    trees = build_trees(roots, children)
-    print_tree(trees)
+    forest = build_forest(roots, children)
+    print_forest(forest)
 
 if __name__ == "__main__":
     main()
