@@ -4,7 +4,7 @@ import argparse
 def sort_by(node):
     return node.task.get("estimate", "")
 
-def find_children(df):
+def find_roots_and_children(df):
     children = {}
     roots = []
 
@@ -19,12 +19,12 @@ def find_children(df):
             roots.append(current)
     return [roots, children];
 
-def substitute(roots, children):
+def build_tree(roots, children):
     tree = []
     for root in roots:
         tree.append(root)
         if root in children:
-            tree.append(substitute(children[root], children))
+            tree.append(build_tree(children[root], children))
     return tree
 
 def main():
@@ -32,9 +32,9 @@ def main():
     parser.add_argument("csv_file", help="Path to CSV file")
     args = parser.parse_args()
     df = pd.read_csv(args.csv_file, dtype=str).fillna("")
-    [roots, children] = find_children(df)
+    [roots, children] = find_roots_and_children(df)
 
-    tree = substitute(roots, children)
+    tree = build_tree(roots, children)
     print(tree)
 
 if __name__ == "__main__":
