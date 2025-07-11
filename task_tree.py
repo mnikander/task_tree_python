@@ -22,14 +22,14 @@ def find_roots_and_children(df):
             roots.append(current)
     return [roots, children];
 
-def indent(level):
-    return '    ' * level;
-
-def print_children(roots, children, level=0):
+def print_children(dictionary, roots, children, level=0):
     for root in roots:
         if root in children:
-            level = print_children(children[root], children)
-        print(indent(level) + root)
+            level = print_children(dictionary, children[root], children)
+        row = dictionary.get(root, {})
+        indent = '    ' * level
+        description = row.get("description", "").strip()
+        print(f"{root} {indent}- {description}")
     return level+1
 
 def main():
@@ -38,7 +38,8 @@ def main():
     args = parser.parse_args()
     df = pd.read_csv(args.csv_file, dtype=str).fillna("")
     [roots, children] = find_roots_and_children(df)
-    print_children(roots, children)
+    dictionary = {row["id"]: row for _, row in df.iterrows()}
+    print_children(dictionary, roots, children, 0)
 
 if __name__ == "__main__":
     main()
