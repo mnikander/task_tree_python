@@ -47,5 +47,7 @@ def main():
     task_map = {row["id"]: row for _, row in df.iterrows()}
     print_id_tree(task_map, roots, 0)
 
+    print('')
+    print(roots)
 if __name__ == "__main__":
     main()
