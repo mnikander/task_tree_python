@@ -31,7 +31,7 @@ def print_children(dictionary, roots, children, newline=False):
         important = '*' if row.get("important", "").strip() == 'T' else ' '
         urgent    = '!' if row.get("urgent", "").strip() == 'T' else ' '
         description = row.get("description", "").strip()
-        if (status != 'done'):
+        if (status != 'done' and status != ''):
             print(f"{root} {important}{urgent} {status.ljust(8)} {indent}- {description}")
             if (newline):
                 print("")
