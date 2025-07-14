@@ -10,3 +10,5 @@
 |009| 2025-07-11 |               | print the tree in post-order       | Tasks are printed in the order in which they can be done. Sub-tasks are at the top-left and root-tasks are at the bottom-right. This emphasizes the next step.|
 |010| 2025-07-11 |               | command line tool, no GUI at first | A script with console output is easy to implement.|
 |011| 2025-07-11 |               | implement it in Python             | Runnable on my laptop. My laptop has Ubuntu 18, which has a very old NodeJS version (12) which can't build the TypeScript application I built.|
+|012| 2025-07-14 |               | don't display backlog items        | Avoid displaying an overwhelmingly long list.|
+|013| 2025-07-14 |               | empty status is backlog status     | Easy to identify backlog items when looking at the CSV file.|
