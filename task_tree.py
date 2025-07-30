@@ -25,7 +25,7 @@ def print_children(dictionary, roots, children, newline=False):
     filtered_trees = list(filter(lambda x: dictionary.get(x, {}).get("status", "").strip() in allowed_statuses, roots))
     sorted_trees = sorted(filtered_trees, key=lambda x: make_integer(dictionary.get(x, "").get("estimate", "")))
     level = 0
-    for root in filtered_trees:
+    for root in sorted_trees:
         if root in children:
             level = print_children(dictionary, children[root], children)
         row = dictionary.get(root, {})
