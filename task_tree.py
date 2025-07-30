@@ -21,8 +21,11 @@ def make_integer(str):
         return int(str)
 
 def print_children(dictionary, roots, children, newline=False):
-    for root in sorted(roots, key=lambda x: make_integer(dictionary.get(x, "").get("estimate", ""))):
-        level = 0
+    allowed_statuses = {"do", "doing", "maybe"}
+    filtered_trees = list(filter(lambda x: dictionary.get(x, {}).get("status", "").strip() in allowed_statuses, roots))
+    sorted_trees = sorted(filtered_trees, key=lambda x: make_integer(dictionary.get(x, "").get("estimate", "")))
+    level = 0
+    for root in filtered_trees:
         if root in children:
             level = print_children(dictionary, children[root], children)
         row = dictionary.get(root, {})
@@ -31,10 +34,9 @@ def print_children(dictionary, roots, children, newline=False):
         important = '*' if row.get("important", "").strip() == 'T' else ' '
         urgent    = '!' if row.get("urgent", "").strip() == 'T' else ' '
         description = row.get("description", "").strip()
-        if (status != 'done' and status != ''):
-            print(f"{root} {important}{urgent} {status.ljust(8)} {indent}- {description}")
-            if (newline):
-                print("")
+        print(f"{root} {important}{urgent} {status.ljust(8)} {indent}- {description}")
+        if (newline):
+            print("")
     return level+1
 
 def main():
