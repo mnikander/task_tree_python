@@ -22,8 +22,12 @@ def make_integer(str):
 
 def print_children(dictionary, roots, children, newline=False):
     allowed_statuses = {"do", "doing", "maybe"}
-    filtered_trees = list(filter(lambda x: dictionary.get(x, {}).get("status", "").strip() in allowed_statuses, roots))
-    sorted_trees = sorted(filtered_trees, key=lambda x: make_integer(dictionary.get(x, "").get("estimate", "")))
+    filtered_trees   = list(filter(lambda x: dictionary.get(x, {}).get("status", "").strip() in allowed_statuses, roots))
+    urgent_trees     = list(filter(lambda x: dictionary.get(x, {}).get("urgent", "").strip() == 'T', filtered_trees))
+    nonurgent_trees  = list(filter(lambda x: dictionary.get(x, {}).get("urgent", "").strip() != 'T', filtered_trees))
+    sorted_urgent    = sorted(urgent_trees, key=lambda x: make_integer(dictionary.get(x, "").get("estimate", "")))
+    sorted_nonurgent = sorted(nonurgent_trees, key=lambda x: make_integer(dictionary.get(x, "").get("estimate", "")))
+    sorted_trees     = sorted_urgent + sorted_nonurgent
     level = 0
     for root in sorted_trees:
         if root in children:
