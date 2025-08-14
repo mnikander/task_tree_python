@@ -20,6 +20,9 @@ def make_integer(str):
     else:
         return int(str)
 
+def count_completed(df):
+    return (df["status"].str.strip() == "done").sum() + (df["status"].str.strip() == "reject").sum()
+
 def print_children(dictionary, roots, children, newline=False):
     allowed_statuses = {"do", "doing", "maybe"}
     filtered_trees   = list(filter(lambda x: dictionary.get(x, {}).get("status", "").strip() in allowed_statuses, roots))
@@ -51,6 +54,7 @@ def main():
     [roots, children] = find_roots_and_children(df)
     dictionary = {row["id"]: row for _, row in df.iterrows()}
     print_children(dictionary, roots, children, True)
+    print("Completed tasks: " + str(count_completed(df)) + "\n")
 
 if __name__ == "__main__":
     main()
